@@ -9,6 +9,36 @@
 	
 *************************************************************************/
 
+#include "map_cell_object.h"
+
+// ---------------------------------------------------------------
+// Enumerations
+// ---------------------------------------------------------------
+
+enum BmapCellAccess : unsigned __int8
+{
+  CA_CANNOTACCESS   = 0x1,
+  CA_WATEREDGE      = 0x2,
+  CA_UNKNOWNACCESS1 = 0x4,
+  CA_UNKNOWNACCESS2 = 0x8,
+  CA_ENTRANCE       = 0x10,
+  CA_UNKNOWNACCESS3 = 0x20,
+  CA_UNKNOWNACCESS4 = 0x40,
+  CA_UNKNOWNACCESS5 = 0x80,
+};
+
+enum BmapCellmirror : unsigned __int8
+{
+  CM_TILEMIRRORH  = 0x1,
+  CM_TILEMIRRORV  = 0x2,
+  CM_RIVERMIRRORH = 0x4,
+  CM_RIVERMIRRORV = 0x8,
+  CM_ROADMIRRORH  = 0x10,
+  CM_ROADMIRRORV  = 0x20,
+  CM_CANDIG       = 0x40,
+  CM_ANIMATED     = 0x80,
+};
+
 // ---------------------------------------------------------------
 // Global Variables
 // ---------------------------------------------------------------
@@ -38,7 +68,7 @@ struct type_point {
 	} //0x419210// SoD 3.2
 	/*
 	[][][z][z] [z][z][y][y] [y][y][y][y] [y][y][y][y] [][][][] [][][x][x] [x][x][x][x] [x][x][x][x]
-    0 0 | z z z z | y y y y y y y y y y | 0 0 0 0 0 0 | x x x x x x x x x x 
+         (0 0 | z z) (z z | y y) (y y y y) (y y y y) | (0 0 0 0) (0 0 | x x) (x x x x) (x x x x)
 	4 bytes for Z-coordinate, 10,10 bytes for X-coordinate and Y-coordinate respectively; 2+6 = 8 unused bytes
 	4 байта для Z-координаты и по 10 байт для X и Y координаты, итого остается 2+6 = 8 неиспользованных байтов
 	*/
@@ -71,6 +101,47 @@ struct type_point {
 
 
 class NewmapCell {
+	public:
+	                     NewmapCell();
+	                     ~NewmapCell();
 	
+	//Class' own types
+	class TObjectCell {
+		public:
+		CObject *    get_object(void)const; //TODO: discover CObject and TObjectCell types
+	};
+	
+	//Getters
+	enum EArtifact       GetArtifactIndex()const;
+	NewmapCell *         get_trigger_cell();
+   enum EAdventureObjectType get_map_object()const;
+	unsigned long        get_map_extraInfo()const;
+   enum EAdventureObjectType get_special_terrain()const;
+	
+	//Checkers
+	bool                 cell_is_trigger()const;
+	bool                 is_diggable()const;
+	bool const           HasTriggerableEvent()const;
+	
+	//Member Variables 
+	public:
+	ExtraInfoUnion       m_UnionMapCell;
+  	byte                 m_Land;
+  	byte                 m_LandType;
+  	byte                 m_River;
+  	byte                 m_RiverType;
+  	byte                 m_Road;
+  	byte                 m_RoadType;
+  	short                m_Unknown1;
+  	BmapCellmirror       m_Mirror;
+  	BmapCellAccess       m_Access;
+  	short                m_Bits;
+  	short                m_Unknown2;
+  	int                  m_Draw;
+  	int                  m_DrawEnd;
+  	int                  m_DrawEnd2;
+  	EAdventureObjectType m_AdventureObjectType;
+  	short                m_ObjectSubType;
+  	short                m_DrawnObjectIndex;
 	
 };
