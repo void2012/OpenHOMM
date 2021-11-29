@@ -1,9 +1,9 @@
 /************************************************************************
-									OpenHoMM Project by Void_17
-										Licensed under MIT
+		OpenHoMM Project by Void_17
+		   Licensed under MIT
 		  
 -------------------------------------------------------------------------
-												hero.h
+		         hero.h
 	Header: /src/hero.h 
 	Descr.: Provides the game hero class and enums
 	
@@ -251,7 +251,7 @@ class hero {
 	uint          m_Flags;
 	float         m_AIExperienceEffectiveness;
 	byte          m_DDCastThisTurn;
-	int        	  m_DisguisePower;
+	int           m_DisguisePower;
 	int           m_FlyPower;
 	int           m_WaterWalkPower;
 	char          m_MoraleBonus;
