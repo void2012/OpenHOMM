@@ -25,7 +25,7 @@ HT_ORRIN      = 0,
 HT_VALESKA    = 1,
 HT_EDRIC      = 2,
 HT_SYLVIA     = 3,
-HT_LORD_HAART  = 4,
+HT_LORD_HAART = 4,
 HT_SORSHA     = 5,
 HT_CHRISTIAN  = 6,
 HT_TYRIS      = 7,
@@ -193,16 +193,19 @@ HT_RANDOM     = -1,
 // ---------------------------------------------------------------
 
 class hero {
+	//Public Methods
 		public:
 		
 	explicit hero();
-		       ~hero();
+		 ~hero();
+	
+	
 						 
-		  //Member Variables 
+	//Member Variables 
 			public:		
 			
 	short         m_X;
-	short		      m_Y;
+	short	      m_Y;
 	short         m_Z;
 	bool          m_IsVisible;
 	type_point    m_Coordinate;
