@@ -2,13 +2,13 @@
 
 		OpenHoMM Project by Void_17
                   Licensed under MIT
-
-	------------------------------------------------------------------
-  						           array.h
+		  
+-------------------------------------------------------------------------
+  			array.h
 
 	Header: /src/array.h 
 
-	Descr.: Provides
+	Descr.: Provides the CAutoArray<...> template class
 
  ************************************************************************/
 
