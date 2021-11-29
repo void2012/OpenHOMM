@@ -12,6 +12,7 @@
  #include "map_point.h"
  #include "artifact.h"
  #include "armygrp.h"
+ #include "skill.h"
  
 // ---------------------------------------------------------------
 // Constants
@@ -21,7 +22,7 @@
 // Enumerations
 // ---------------------------------------------------------------
  
-enum EHeroID
+enum EHeroID : int
 {
 HT_ORRIN      = 0,
 HT_VALESKA    = 1,
@@ -168,26 +169,30 @@ HT_AENAIN     = 141,
 HT_GELARE     = 142,
 HT_GRINDAN    = 143,
 HT_SIR_MULLICH= 144,
-HT_ADRIENNE   = 145,
-HT_CATHERINE  = 146,
-HT_DRACON     = 147,
-HT_GELU       = 148,
-HT_KILGOR     = 149,
-HT_LORD_HAART2= 150,
-HT_MUTARE     = 151,
-HT_ROLAND     = 152,
-HT_MUTARE_DRAKE = 153,
-HT_BORAGUS    = 154,
-HT_XERON      = 155,
-HT_GENERAL_KENDAL  = 156,
-HT_CAMPAIGN_CHRISTIAN  = 157,
-HT_CAMPAIGN_GEM  = 158,
-HT_FINNEAS_VILMAR  = 159,
-HT_ORDWALD    = 160,
-HT_CAMPAIGN_SANDRO  = 161,
-HT_CAMPAIGN_YOG  = 162,
-HT_MOST_POWERFUL  = -3,
-HT_RANDOM     = -1,
+HT_ADRIENNE          = 145,
+HT_CATHERINE         = 146,
+HT_DRACON            = 147,
+HT_GELU              = 148,
+HT_KILGOR            = 149,
+HT_LORD_HAART_UNDEAD = 150,
+HT_MUTARE            = 151,
+HT_ROLAND            = 152,
+HT_MUTARE_DRAKE      = 153,
+HT_BORAGUS           = 154,
+HT_XERON             = 155,
+HT_GENERAL_KENDAL    = 156,
+HT_CAMPAIGN_CHRISTIAN= 157,
+HT_CAMPAIGN_GEM      = 158,
+HT_FINNEAS_VILMAR    = 159,
+HT_ORDWALD           = 160,
+HT_CAMPAIGN_SANDRO   = 161,
+HT_CAMPAIGN_YOG      = 162,
+HT_MOST_POWERFUL     = -3,
+HT_RANDOM            = -1,
+};
+
+enum hero_seqid 
+{	
 };
 
 // ---------------------------------------------------------------
@@ -195,16 +200,144 @@ HT_RANDOM     = -1,
 // ---------------------------------------------------------------
 
 class hero {
+	
 	//Public Methods
-		public:
-		
+	public:
+	
+	//Constructor and Destructor	
 	explicit hero();
-		     ~hero();
+		 ~hero() {};
 	
+	//Getters
+	static int    GetLevel( int );
+	static int    GetExperience( int );
+	static int    GetExperienceIncrement( int );
+	int           GetExperienceIncrement()const;	
+	bool          GetHflip();
+	type_point    get_target()const;
+	int           GetManaCost( int )const;
+	ESkillMastery get_spell_level( SpellID )const;
+type_artifact const & get_artifact( TArtifactSlot )const;
+type_artifact const & get_artifact( TArtifactSlot )const;
+	int           GetPrimarySkill( int )const;
+	ESkillMastery get_secondary_skill( ESecondarySkill )const;
+	int           GetMaxMana()const;
+	char  const * GetSpecificAbilityText();
+	char  const * GetSpecificAbilityTextShort();
+	long          get_equipped_artifacts( bool )const;
+	long          get_number_in_backpack( bool )const;
+   enum hero_seqid    GetStandSequence(); //TODO: define hero_seqid enum
+	long          get_last_backpack_index(void)const;
+	std::string   get_morale_description(void)const;
+	std::string   get_morale_description(void)const;
+	int           CreatureTypeCount(int);
+	int           GetNthSS(int);
+	std::string   get_backpack_error(TArtifact)const;
+	int           GetLuck(hero const *,bool,bool)const;
+	int           GetMorale(hero const *,bool,bool)const;
+	float         GetNecromancyFactor(bool)const;
+	int           GetMysticismBonus()const;
+	int           GetVisibility();
+	float         GetArcheryFactor();
+	int           GetVisibility()const;
+	float         GetArcheryFactor()const;
+	float         GetOffenseFactor()const;
+	float         GetDefenseFactor()const;
+	int           GetEstatesBonus()const;
+	float         GetEagleEyeChance()const;
+	float         GetSurrenderCostFactor()const;
+	float         GetMagicResistanceFactor()const;
+	float         GetExperienceBonusFactor()const;
+	float         GetLogisticsFactor()const;
+	long          GetNavigationFactor()const;
+	float         GetSorceryFactor()const;
+	float         GetIntelligenceFactor()const;
+	float         GetFirstAidFactor()const;
+	int           GetMobility(bool)const;
+	int           GetMobility()const;
+	int           GetSpellDurationBonus()const;
+EAdventureObjectType  get_special_terrain();
+	ESkillMastery get_spell_level(SpellID,bool);
+	TSkillMastery GetSpellSchoolLevel(TSpellSchool,bool);
+	TSpellSchool  GetHighestSchool(TSpellSchool);
+	int           GetManaCost(int,armyGroup const *,bool);
+	int           GetMobilityFrame();
+	int           GetManaFrame();
+	float         get_combat_value_modifier();
+	short         get_primary_skill_total();	
+	playerData *  get_player(); //playerData class
+	ESkillMastery GetSpellSchoolLevel(ESpellSchool);
+	long          get_combat_speed_bonus();
+	long          get_hit_point_bonus();
+	int           GetHeroSpellBonus(SpellID,int,int);
+
+	//Checkers
+	bool          IsFlying( bool )const;
+	bool          CanWalkOnWater( bool )const;
+	bool          SpellIsAvailable( int )const;
+	bool          is_in_spellbook( SpellID )const;
+	bool          belongs_to_human()const;
+	int           HasArtifact( int )const;
+	int           IsWieldingArtifact( int )const;
+	void          CheckLevel();
+	bool          HasSecondarySkill(int);
+	bool          VisitedArena(NewmapCell const *);	
+	bool          HasArmy(ECreatureType);
+	boat *        find_summonable_boat(void); //boat class
+	bool          can_summon_boat();
+	bool          is_in_patrol_radius(type_point);
+	bool          can_land();
+	bool          IsInIdentifyRange(type_point const &);
+	bool          IsMobile();
 	
-						 
+	//Setters
+	void          AdjustPrimarySkill( int, int );
+	void          SetPrimarySkill( int, int );
+	void          SetSS( int, int );
+	int           TakeSS( int, int );
+	int           GiveSS( int, int );
+	void          SetVisitedArena(NewmapCell const *);
+	long          modify_spell_damage(SpellID,int,army const *);
+		
+	//Other
+	void          obscure_cell();
+	void          hire( int, type_point );
+	void          PlaceInMap( int, type_point, bool );
+	int           load( void * ); //zlib
+	int           save( void * ); //zlib
+	void          initialize( short );
+	void          DestroySiegeWeaponArtifact( int );
+	void          UseSpell( int );
+	void          AddSpell( int );
+	void          update_spell_list();
+	void          HeroScreenUpdate();
+	void          UpdateArmies();
+	void          ViewStat( int, int );
+	void          ViewArtifact(type_artifact const &,int);
+	void          Deallocate( bool, bool );
+	void          ApplyBattleWinTemps();
+	void          ApplyBattleLossTemps();
+	void          rotate_backpack_left();
+	void          rotate_backpack_right();
+	void          UpdateStats(void);
+	void          UpgradeCreatures( int, int );
+	void          TransferArtifacts( hero * );
+	bool          equip_artifact( type_artifact const &, long );
+	void          remove_artifact( TArtifactSlot );
+	void          remove_backpack_artifact( short );
+	bool          remove_artifact( TArtifact );
+	bool          add_to_backpack( type_artifact const &,long );
+	void          GiveArtifact( type_artifact const &, int, bool );
+	int           GiveRandomArtifact();
+	int           GiveExperience(int,int,bool);
+	void          GiveResource(int,int);
+	void          reset_artifacts(void);
+	void          Fly(int);
+        void          WalkOnWater(int);
+	
+					 
 	//Member Variables 
-			public:		
+	public:		
 			
 	short         m_X;
 	short	      m_Y;
