@@ -199,7 +199,7 @@ class hero {
 		public:
 		
 	explicit hero();
-		 ~hero();
+		     ~hero();
 	
 	
 						 
